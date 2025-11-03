@@ -1,0 +1,185 @@
+/* index.css
+   Layout baseado em um palco 1440x1024 que será escalado.
+   O #viewport-wrapper tem exatamente essa dimensão; posicionamentos internos seguem suas medidas.
+*/
+
+:root{
+    --frame-w: 1440px;
+    --frame-h: 1024px;
+    --header-h: 108px;
+    --primary-dark: #2C7BE5; /* bottom gradient color */
+    --primary-top: #17C671; /* top gradient color */
+    --panel-top-bar: #2C7BE5;
+    --panel-body-bg: #F8F9FA;
+    --text-dark: #343A40;
+  }
+  
+  /* Página inteira com gradiente */
+  html,body{
+    height:100%;
+    margin:0;
+    font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(to bottom, var(--primary-top) 0%, var(--primary-dark) 100%);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  
+  /* Centro o frame */
+  #viewport-wrapper{
+    width: var(--frame-w);
+    height: var(--frame-h);
+    margin: 0 auto;
+    position: relative;
+    transform-origin: top left;
+    /* o scale será aplicado via JS no load / resize */
+  }
+  
+  /* Header (1440 x 108) */
+  #main-header{
+    width: 1440px;
+    height: 108px;
+    position: relative;
+    display:block;
+  }
+  
+  /* Logo posicionado 314px da borda esquerda, verticalmente 32px do topo do header? 
+     Você pediu logo a 314px da esquerda; o nome a 324px da direita e 32px do topo. 
+     Interpretarei: logo na posição x=314, y=(center vertically ~ as imagens) e título offset conforme medidas.
+  */
+  #logo-img{
+    position:absolute;
+    left:314px;
+    top: (108 - 48) / 2; /* fallback not calc-friendly across browsers: adjust below */
+    top: 30px; /* aproximação para mantendo proporção base */
+    height: 48px;
+    width: auto;
+  }
+  
+  /* Site title specifics: Inter bold italic 48, cor 343A40, pos 69px a direita do logo (solicitado) */
+  #site-title{
+    position:absolute;
+    /* colocamos com base nas instruções: 69px à direita do logo */
+    left: calc(314px + 69px + 60px); /* ajuste fino se necessário */
+    top: 32px; /* solicitado 32px do topo do header */
+    font-style: italic;
+    font-weight: 700;
+    font-size: 48px;
+    color: var(--text-dark);
+  }
+  
+  /* Main content centralizado: as tabelas começam 90px abaixo do header e as laterais 260px/244px */
+  #main-content{
+    position: absolute;
+    top: calc(var(--header-h) + 90px); /* header + 90px */
+    left: 260px; /* marge esquerda */
+    right: 244px; /* margem direita */
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Card painel (as "tabelas") */
+  .card-panel{
+    background: transparent;
+    box-sizing: border-box;
+    border: none;
+    position: relative;
+    display:flex;
+    flex-direction: column;
+  }
+  
+  /* Top bar 31px */
+  .card-panel .panel-top{
+    height: 31px;
+    background: var(--panel-top-bar);
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    position: relative;
+    padding: 0 12px;
+  }
+  
+  /* Top text centralizado com Inter bold italic size 20 and color #343A40 */
+  .panel-top-text{
+    font-style: italic;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--text-dark);
+    text-align:center;
+  }
+  
+  /* calendar button positioned at right */
+  #calendar-btn{
+    position: absolute;
+    right: 8px;
+    top: 3px;
+    background: transparent;
+    border: none;
+  }
+  
+  /* dropdown container style on the right of second panel */
+  .card-panel .dropdown{
+    position:absolute;
+    right:8px;
+    top:0;
+  }
+  
+  /* Panel body: 287px height with background F8F9FA */
+  .card-panel .panel-body{
+    height: 287px;
+    background: var(--panel-body-bg);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 18px;
+    box-sizing: border-box;
+  }
+  
+  /* Current event card inside events area: render a small table */
+  #current-event-card{
+    width: 100%;
+    max-width: 880px;
+  }
+  
+  /* Small event table visual */
+  .event-table{
+    width:100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .event-table th{
+    text-align:left;
+    padding:8px;
+    font-weight:700;
+    border-bottom:1px solid #ddd;
+  }
+  .event-table td{
+    padding:8px;
+  }
+  
+  /* Forecast day item */
+  .forecast-grid{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+  }
+  .forecast-day{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:6px 8px;
+    background: white;
+    border-radius:6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  .forecast-day img{
+    width:48px;
+    height:48px;
+    object-fit:contain;
+  }
+  
+  /* Responsividade: o elemento #viewport-wrapper será escalado e o conteúdo interno mantem as medidas.
+     A escala é gerenciada por index.js. Em telas muito pequenas, texto pode ficar pequeno, mas layout se mantém proporcional.
+  */
+  
