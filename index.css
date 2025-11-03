@@ -48,10 +48,10 @@
   */
   #logo-img{
     position:absolute;
-    left:314px;
+    left: 314px;
     top: (108 - 48) / 2; /* fallback not calc-friendly across browsers: adjust below */
-    top: 30px; /* aproximação para mantendo proporção base */
-    height: 48px;
+    top: 40px; /* aproximação para mantendo proporção base */
+    height: 80px;
     width: auto;
   }
   
@@ -59,7 +59,7 @@
   #site-title{
     position:absolute;
     /* colocamos com base nas instruções: 69px à direita do logo */
-    left: calc(314px + 69px + 60px); /* ajuste fino se necessário */
+    left: 866px; /* ajuste fino se necessário */
     top: 32px; /* solicitado 32px do topo do header */
     font-style: italic;
     font-weight: 700;
