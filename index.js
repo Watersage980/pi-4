@@ -128,16 +128,16 @@
         const rainProb = Math.round(Math.random()*100);
         const mm = rainProb > 50 ? Math.round(Math.random()*20) : 0;
         // escolha de ícone simples
-        let icon = "sol.png";
-        if (rainProb > 65) icon = "chuva.png";
-        else if (rainProb > 35) icon = "nublado.png";
+        //let icon = "sol.png";
+        //if (rainProb > 65) icon = "chuva.png";
+        //else if (rainProb > 35) icon = "nublado.png";
         week.push({
           day: new Date(Date.now() + i*24*3600*1000),
           temp,
           hum,
           rainProb,
-          mm,
-          icon
+          mm
+          //icon
         });
       }
       return week;
@@ -151,7 +151,6 @@
         const dayName = f.day.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: '2-digit' });
         return `
           <div class="forecast-day">
-            <img src="${f.icon}" alt="icone" />
             <div style="flex:1">
               <div style="font-weight:700">${dayName}</div>
               <div>Temperatura: ${f.temp} °C</div>
