@@ -92,7 +92,8 @@
         return;
       }
       const ev = currentMonthEvents[eventIndex % currentMonthEvents.length];
-      currentEventCard.innerHTML = `
+      if (showingNextMonth == false){
+        currentEventCard.innerHTML = `
         <table class="event-table">
           <thead>
             <tr>
@@ -111,7 +112,28 @@
         </table>
         <div style="margin-top:8px;font-size:12px;color:#6c757d;">Mostrando ${eventIndex+1} de ${currentMonthEvents.length}. Aperte o ícone do calendário para ver o próximo evento ou clique no mês para ir para o próximo mês.</div>
       `;
-    }
+      } else {
+        currentEventCard.innerHTML = `
+        <table class="event-table">
+          <thead>
+            <tr>
+              <th>Evento</th>
+              <th>Público Estimado</th>
+              <th>Impacto Econômico</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>${ev.nome}</td>
+              <td>${ev.publico}</td>
+              <td>${ev.impacto}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:8px;font-size:12px;color:#6c757d;">Mostrando ${eventIndex+1} de ${currentMonthEvents.length}. Aperte o ícone do calendário para ver o próximo evento ou clique no mês para ir para o mês anterior.</div>
+      `;
+      };
+    };
   
     calendarBtn.addEventListener('click', () => {
       // Quando clicar no ícone, trocar o evento dentro do mês atual/seguinte
