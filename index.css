@@ -108,6 +108,12 @@
     text-align:center;
   }
   
+  #events-month-label{
+    position: absolute;
+    background: transparent;
+    border: none;
+  }
+
   /* calendar button positioned at right */
   #calendar-btn{
     position: absolute;

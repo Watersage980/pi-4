@@ -46,7 +46,30 @@
     // determina mês atual
     const today = new Date();
     let currentMonth = today.getMonth(); // 0-11
-    monthLabel.textContent = monthNames[currentMonth];
+    let showingNextMonth = false; // controle do toggle
+    let eventIndex = 0; // índice do evento atual quando múltiplos
+
+    // Função para atualizar o texto
+    function updateMonthLabel() {
+      let displayMonth = showingNextMonth ? currentMonth + 1 : currentMonth;
+
+      // Corrige caso o mês passe de dezembro
+      if (displayMonth > 11) displayMonth = 0;
+
+      let monthName = monthNames[displayMonth];
+      monthLabel.textContent = `${monthName} ${today.getFullYear()}`;
+    }
+
+    // Exibe o mês atual ao carregar
+    updateMonthLabel();
+
+    // Alterna ao clicar
+    monthLabel.addEventListener("click", () => {
+      showingNextMonth = !showingNextMonth;
+      eventIndex = 0
+      updateMonthLabel();
+      renderCurrentEvent();
+    });
   
     // Encontra eventos que ocorrem no mês atual
     let currentMonthEvents = events.filter(ev => ev.meses.includes(currentMonth + 1)); // note events meses stored 1-12
@@ -55,12 +78,17 @@
       currentMonthEvents = [];
     }
   
-    // índice do evento atual quando múltiplos
-    let eventIndex = 0;
-  
+    // 🔹 Atualiza eventos dinamicamente de acordo com o mês mostrado
     function renderCurrentEvent() {
-      if (!currentMonthEvents || currentMonthEvents.length === 0) {
-        currentEventCard.innerHTML = `<div style="text-align:center;color:#343A40;font-weight:700;">Nenhum evento listado para ${monthNames[currentMonth]}</div>`;
+      // Determina qual mês deve ser mostrado
+      let displayMonth = showingNextMonth ? currentMonth + 1 : currentMonth;
+      if (displayMonth > 11) displayMonth = 0;
+
+      // 🔸 Filtra eventos com base no mês mostrado
+      let currentMonthEvents = events.filter(ev => ev.meses.includes(displayMonth + 1)); // meses armazenados como 1-12
+
+      if (currentMonthEvents.length === 0) {
+        currentEventCard.innerHTML = `<div style="text-align:center;color:#343A40;font-weight:700;">Nenhum evento listado para ${monthNames[displayMonth]}</div>`;
         return;
       }
       const ev = currentMonthEvents[eventIndex % currentMonthEvents.length];
@@ -81,16 +109,22 @@
             </tr>
           </tbody>
         </table>
-        <div style="margin-top:8px;font-size:12px;color:#6c757d;">Mostrando ${eventIndex+1} de ${currentMonthEvents.length}. Aperte o ícone do calendário para ver o próximo evento.</div>
+        <div style="margin-top:8px;font-size:12px;color:#6c757d;">Mostrando ${eventIndex+1} de ${currentMonthEvents.length}. Aperte o ícone do calendário para ver o próximo evento ou clique no mês para ir para o próximo mês.</div>
       `;
     }
   
     calendarBtn.addEventListener('click', () => {
+      // Quando clicar no ícone, trocar o evento dentro do mês atual/seguinte
+      let displayMonth = showingNextMonth ? currentMonth + 1 : currentMonth;
+      if (displayMonth > 11) displayMonth = 0;
+
+      // 🔹 Refaz o filtro aqui também para manter consistência
+      let currentMonthEvents = events.filter(ev => ev.meses.includes(displayMonth + 1));
       if (!currentMonthEvents || currentMonthEvents.length === 0) return;
+
       eventIndex = (eventIndex + 1) % currentMonthEvents.length;
       renderCurrentEvent();
     });
-  
     renderCurrentEvent();
   
     /* ---------- Regiões do estado de SP e previsão (dados de exemplo) ---------- */
