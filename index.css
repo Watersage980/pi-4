@@ -1,8 +1,3 @@
-/* index.css
-   Layout baseado em um palco 1440x1024 que será escalado.
-   O #viewport-wrapper tem exatamente essa dimensão; posicionamentos internos seguem suas medidas.
-*/
-
 :root{
     --frame-w: 1440px;
     --frame-h: 1024px;
@@ -34,7 +29,6 @@
     /* o scale será aplicado via JS no load / resize */
   }
   
-  /* Header (1440 x 108) */
   #main-header{
     width: 1440px;
     height: 108px;
@@ -42,32 +36,25 @@
     display:block;
   }
   
-  /* Logo posicionado 314px da borda esquerda, verticalmente 32px do topo do header? 
-     Você pediu logo a 314px da esquerda; o nome a 324px da direita e 32px do topo. 
-     Interpretarei: logo na posição x=314, y=(center vertically ~ as imagens) e título offset conforme medidas.
-  */
   #logo-img{
     position:absolute;
     left: 314px;
-    top: (108 - 48) / 2; /* fallback not calc-friendly across browsers: adjust below */
+    top: (108 - 48) / 2; 
     top: 40px; /* aproximação para mantendo proporção base */
     height: 80px;
     width: auto;
   }
   
-  /* Site title specifics: Inter bold italic 48, cor 343A40, pos 69px a direita do logo (solicitado) */
   #site-title{
     position:absolute;
-    /* colocamos com base nas instruções: 69px à direita do logo */
-    left: 866px; /* ajuste fino se necessário */
-    top: 32px; /* solicitado 32px do topo do header */
+    left: 866px; 
+    top: 32px; 
     font-style: italic;
     font-weight: 700;
     font-size: 48px;
     color: var(--text-dark);
   }
   
-  /* Main content centralizado: as tabelas começam 90px abaixo do header e as laterais 260px/244px */
   #main-content{
     position: absolute;
     top: calc(var(--header-h) + 90px); /* header + 90px */
@@ -88,7 +75,6 @@
     flex-direction: column;
   }
   
-  /* Top bar 31px */
   .card-panel .panel-top{
     height: 31px;
     background: var(--panel-top-bar);
@@ -99,7 +85,6 @@
     padding: 0 12px;
   }
   
-  /* Top text centralizado com Inter bold italic size 20 and color #343A40 */
   .panel-top-text{
     font-style: italic;
     font-weight: 700;
@@ -136,7 +121,6 @@
     top:0;
   }
   
-  /* Panel body: 287px height with background F8F9FA */
   .card-panel .panel-body{
     height: 287px;
     background: var(--panel-body-bg);
@@ -189,9 +173,4 @@
     width:48px;
     height:48px;
     object-fit:contain;
-  }
-  
-  /* Responsividade: o elemento #viewport-wrapper será escalado e o conteúdo interno mantem as medidas.
-     A escala é gerenciada por index.js. Em telas muito pequenas, texto pode ficar pequeno, mas layout se mantém proporcional.
-  */
-  
+  }  

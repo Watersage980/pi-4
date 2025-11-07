@@ -1,4 +1,3 @@
-// index.js
 // Escala o wrapper para manter as dimensões relativas (1440x1024) independentemente do tamanho da janela.
 // Também popula eventos do mês atual e a previsão estática para regiões do estado de SP.
 
@@ -16,10 +15,6 @@
     window.addEventListener('resize', applyScale);
     window.addEventListener('load', applyScale);
   
-    /* ---------- Dados de eventos (exemplo, baseado nas suas imagens/tabela) ----------
-       Cada evento tem: nome, meses (array or range), publicoEstimado, impactoEconomico, cidade/região
-       Para o TCC você pode substituir por dados reais vinda de um CSV ou API.
-    */
     const events = [
       { nome: "Festividades Aniversário de SP", meses: [1], publico: "N/A", impacto: "Diversos setores beneficiados, incluindo comércio e serviços" },
       { nome: "Carnaval e Desfiles Oficiais", meses: [2,3], publico: "Grandes multidões", impacto: "Aumento significativo no comércio, com destaque para hotéis e bares" },
@@ -47,7 +42,7 @@
     const today = new Date();
     let currentMonth = today.getMonth(); // 0-11
     let showingNextMonth = false; // controle do toggle
-    let eventIndex = 0; // índice do evento atual quando múltiplos
+    let eventIndex = 0; // índice do evento atual quando múltiplos ocorrem no mesmo mês
 
     // Função para atualizar o texto
     function updateMonthLabel() {
@@ -78,13 +73,13 @@
       currentMonthEvents = [];
     }
   
-    // 🔹 Atualiza eventos dinamicamente de acordo com o mês mostrado
+    // Atualiza eventos dinamicamente de acordo com o mês mostrado
     function renderCurrentEvent() {
       // Determina qual mês deve ser mostrado
       let displayMonth = showingNextMonth ? currentMonth + 1 : currentMonth;
       if (displayMonth > 11) displayMonth = 0;
 
-      // 🔸 Filtra eventos com base no mês mostrado
+      // Filtra eventos com base no mês mostrado
       let currentMonthEvents = events.filter(ev => ev.meses.includes(displayMonth + 1)); // meses armazenados como 1-12
 
       if (currentMonthEvents.length === 0) {
@@ -140,7 +135,7 @@
       let displayMonth = showingNextMonth ? currentMonth + 1 : currentMonth;
       if (displayMonth > 11) displayMonth = 0;
 
-      // 🔹 Refaz o filtro aqui também para manter consistência
+      // Refaz o filtro aqui também para manter consistência
       let currentMonthEvents = events.filter(ev => ev.meses.includes(displayMonth + 1));
       if (!currentMonthEvents || currentMonthEvents.length === 0) return;
 
@@ -149,7 +144,7 @@
     });
     renderCurrentEvent();
   
-    /* ---------- Regiões do estado de SP e previsão (dados de exemplo) ---------- */
+    /* ---------- Regiões do estado de SP e previsão ---------- */
     const regions = [
       "Grande São Paulo",
       "Litoral Norte",
@@ -175,7 +170,7 @@
       regionList.appendChild(li);
     });
   
-    // Função para simular previsões semanais (no TCC substitua por fetch para INMET/CGE/Climatempo)
+    // Função para simular previsões semanais
     function generateSampleForecast() {
       const week = [];
       for (let i = 0; i < 7; i++) {
@@ -183,7 +178,7 @@
         const hum = Math.round(40 + Math.random()*50); // 40-90
         const rainProb = Math.round(Math.random()*100);
         const mm = rainProb > 50 ? Math.round(Math.random()*20) : 0;
-        // escolha de ícone simples
+        // escolha de ícone simples removida para qualidade de leitura
         //let icon = "sol.png";
         //if (rainProb > 65) icon = "chuva.png";
         //else if (rainProb > 35) icon = "nublado.png";
@@ -200,7 +195,6 @@
     }
   
     function renderForecastForRegion(region) {
-      // placeholder: gera dados simulados
       const forecast = generateSampleForecast();
       // monta HTML
       const html = forecast.map(f => {
@@ -225,10 +219,5 @@
       weatherBody.innerHTML = `<div style="text-align:center;color:#343A40;font-weight:700;">Escolha uma região para ver a previsão da próxima semana</div>`;
     });
   
-    /* ---------- Observações / pontos futuros ----------
-       - Para dados reais: fazer fetch nos serviços listados (INMET, CGE-SP, Climatempo, etc.)
-       - Substituir os eventos estáticos por uma fonte de dados (CSV/JSON) e associar por datas exatas.
-       - Ajustes visuais finos (posicionamento pixel-perfect) se necessário.
-    */
   })();
   
